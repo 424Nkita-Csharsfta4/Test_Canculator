@@ -1,24 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Square = void 0;
-/**
- * * Наследуемся с Figure
- */
 var Square = /** @class */ (function () {
-    function Square(perimets) {
-        this.perimetr = perimets;
+    function Square(side) {
+        this.side = side;
+        this.type = 'square';
     }
-    Square.prototype.getNames = function () {
-        return "Квадрат";
+    Square.prototype.getArea = function () {
+        // получениe площади квадрата
+        return Math.pow(this.side, 2);
     };
-    Square.prototype.getPerimetr = function () {
-        return 4 * this.perimetr;
-    };
-    Square.prototype.getRadius = function () {
-        return Math.pow(this.perimetr, 2);
-    };
-    Square.prototype.NowSide = function (perimetr) {
-        this.perimetr = perimetr;
+    Square.prototype.getPerimeter = function () {
+        //получениe периметра квадрата
+        return 4 * this.side;
     };
     return Square;
 }());

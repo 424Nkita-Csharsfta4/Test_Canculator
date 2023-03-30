@@ -2,27 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Triangle = void 0;
 var Triangle = /** @class */ (function () {
-    function Triangle(base, height, sideC) {
-        this.base = base;
-        this.height = height;
-        this.sideC = sideC;
+    function Triangle(a, b, c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.type = 'triangle';
     }
-    Triangle.prototype.getNames = function () {
-        return "Треугольник";
-    };
-    Triangle.prototype.getPerimetr = function () {
-        return this.base + this.sideC + this.height;
-    };
-    Triangle.prototype.getRadius = function () {
-        return (this.base * this.height * this.sideC) / (4 * this.getArea());
-    };
-    Triangle.prototype.NowSize = function (base, height, sideC) {
-        this.base = base;
-        this.height = height;
-        this.sideC = sideC;
-    };
     Triangle.prototype.getArea = function () {
-        return 0.5 * this.base * this.height;
+        //площадь треугольника с помощью формулы Герона
+        var s = (this.a + this.b + this.c) / 2;
+        return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+    };
+    Triangle.prototype.getPerimeter = function () {
+        //периметр треугольника, складывая длины всех его сторон
+        return this.a + this.b + this.c;
     };
     return Triangle;
 }());

@@ -1,144 +1,67 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var fs = require("fs"); //Чтение и запись файла
-var readline = require("readline"); //Ввод данных пользователя
+exports.ShapeCalculator = void 0;
+var fs = require("fs");
 var Circle_1 = require("./Circle/Circle");
 var Rectangle_1 = require("./Rectangle/Rectangle");
 var Square_1 = require("./Square/Square");
 var Treangle_1 = require("./Treangle/Treangle");
-var Calculator = /** @class */ (function () {
-    function Calculator() {
-        this.figures = [];
+var ShapeCalculator = /** @class */ (function () {
+    function ShapeCalculator(filepath) {
+        this.filepath = filepath;
+        //Свойство содержашие все фигуры виде массива
+        this.shapes = [];
+        try {
+            var data = fs.readFileSync(filepath, 'utf-8');
+            this.shapes = JSON.parse(data);
+        }
+        catch (error) {
+            console.log("\u041E\u0448\u0438\u0431\u043A\u0430 \u0447\u0442\u0435\u043D\u0438\u044F \u0444\u0430\u0439\u043B\u0430: ".concat(error.message));
+        }
     }
-    /**
-     *
-     * @param figure Добавление в Дженерики фигур
-     */
-    Calculator.prototype.addFigure = function (figure) {
-        this.figures.push(figure);
-    };
-    /**
-     *
-     * @returns Получение всех фигур
-     */
-    Calculator.prototype.getAllFigures = function () {
-        return this.figures;
-    };
-    /**
-     *
-     * @returns Получение количества фигур по типу
-     */
-    Calculator.prototype.getFiguresCountByType = function () {
-        var figuresCountByType = new Map();
-        /**
-         *  Для каждой фигуры определяем ее тип,
-         *  проверяем есть ли уже такой тип в Map и если да, то увеличиваем значение на 1
-         */
-        this.figures.forEach(function (figure) {
-            var _a;
-            var type = figure.getNames();
-            var count = (_a = figuresCountByType.get(type)) !== null && _a !== void 0 ? _a : 0;
-            figuresCountByType.set(type, count + 1);
-        });
-        return figuresCountByType;
-    };
-    /**
-     *
-     * @returns * Получение общей площади фигур
-     */
-    Calculator.prototype.getTotalArea = function () {
-        var totalArea = 0;
-        /**
-         * * Для каждой фигуры вычисляем ее площадь и добавляем ее к общей площади
-         */
-        this.figures.forEach(function (figure) {
-            totalArea += figure.getRadius();
-        });
-        return totalArea;
-    };
-    /**
-     *
-     * @returns Получение общего периметра фигур
-     */
-    Calculator.prototype.getTotalPerimeter = function () {
-        var totalPerimeter = 0;
-        /**
-         * * Для каждой фигуры вычисляем ее периметр и добавляем его к общему периметру
-         */
-        this.figures.forEach(function (figure) {
-            totalPerimeter += figure.getPerimetr();
-        });
-        return totalPerimeter;
-    };
-    /**
-     *
-     * @param filePath Обновление информации о фигурах в файле
-     */
-    Calculator.prototype.updateFiguresInFile = function (filePath) {
-        /**
-         * Преобразуем массив фигур в строку JSON
-         */
-        var figuresData = JSON.stringify(this.figures);
-        /**
-         * *Записываем данные в файл
-         */
-        fs.writeFile(filePath, figuresData, function (err) {
-            if (err)
-                throw err;
-            console.log("Data updated in file ".concat(filePath));
-        });
-    };
-    /**
-     *
-     * @param filePath Чтение информации о фигурах из файла
-     */
-    Calculator.prototype.readFiguresFromFile = function (filePath) {
-        var _this = this;
-        /**
-         * Создаем интерфейс для чтения файла построчно
-         */
-        var readInterface = readline.createInterface({
-            input: fs.createReadStream(filePath),
-            output: process.stdout,
-        });
-        /**
-         * Обработчик события для каждой строки файла
-         */
-        readInterface.on('line', function (line) {
-            /**
-             * Преобразуем строку JSON в объект фигуры и добавляем его в Дженерики
-             */
-            var figureData = JSON.parse(line);
-            var figure;
-            switch (figureData.type) {
-                case 'Circle':
-                    figure = new Circle_1.Circle(figureData.radius);
-                    break;
-                case 'Rectangle':
-                    figure = new Rectangle_1.Reactangle(figureData.width, figureData.height);
-                    break;
-                case 'Square':
-                    figure = new Square_1.Square(figureData.side);
-                    break;
-                case 'Triangle':
-                    figure = new Treangle_1.Triangle(figureData.base, figureData.height, figureData.sideC);
-                    break;
-                default:
-                    figure = null;
-            }
-            if (figure) {
-                _this.addFigure(figure);
+    //Если ошибка при записи
+    ShapeCalculator.prototype.saveShapes = function () {
+        fs.writeFile(this.filepath, JSON.stringify(this.shapes), function (err) {
+            if (err) {
+                console.log("\u041E\u0448\u0438\u0431\u043A\u0430 \u0441\u043E\u0445\u0440\u0430\u043D\u0435\u043D\u0438\u044F \u0444\u0430\u0439\u043B\u0430: ".concat(err.message));
             }
         });
-        /**
-         * Обработчик события завершения чтения файла
-         */
-        readInterface.on('close', function () {
-            console.log("Data read from file ".concat(filePath));
+    };
+    ShapeCalculator.prototype.addCircle = function (radius) {
+        var circle = new Circle_1.Circle(radius);
+        this.shapes.push(circle);
+        this.saveShapes();
+        console.log("\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D ".concat(circle.type, " \u0441 \u0440\u0430\u0434\u0438\u0443\u0441\u043E\u043C ").concat(radius));
+    };
+    ShapeCalculator.prototype.addSquare = function (side) {
+        var square = new Square_1.Square(side);
+        this.shapes.push(square);
+        this.saveShapes();
+        console.log("\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D ".concat(square.type, " \u0441 \u0441\u0442\u043E\u0440\u043E\u043D\u0430 ").concat(side));
+    };
+    ShapeCalculator.prototype.addTriangle = function (a, b, c) {
+        var triangle = new Treangle_1.Triangle(a, b, c);
+        this.shapes.push(triangle);
+        this.saveShapes();
+        console.log("\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D ".concat(triangle.type, " \u0441 \u0441\u0442\u043E\u0440\u043E\u043D\u0430 ").concat(a, ", ").concat(b, ", ").concat(c));
+    };
+    ShapeCalculator.prototype.addRectangle = function (width, height) {
+        var rectangle = new Rectangle_1.Rectangle(width, height);
+        this.shapes.push(rectangle);
+        this.saveShapes();
+        console.log("\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D ".concat(rectangle.type, " \u0441 ").concat(width, " \u0438 \u0432\u044B\u0441\u043E\u0442\u0430 ").concat(height));
+    };
+    ShapeCalculator.prototype.printAllShapes = function () {
+        this.shapes.forEach(function (shape) {
+            console.log("\u0422\u0438\u043F: ".concat(shape.type));
+            console.log("\u041F\u043B\u043E\u0449\u0430\u0434\u044C: ".concat(shape.getArea()));
+            console.log("\u041F\u0435\u0440\u0438\u043C\u0435\u0442\u0440: ".concat(shape.getPerimeter()));
+            console.log('------------------------');
         });
     };
-    return Calculator;
+    ShapeCalculator.prototype.getTotalArea = function () {
+        return this.shapes.reduce(function (acc, shape) { return acc + shape.getArea(); }, 0);
+    };
+    return ShapeCalculator;
 }());
-module.exports = {
-    Calculator: Calculator,
-};
+exports.ShapeCalculator = ShapeCalculator;

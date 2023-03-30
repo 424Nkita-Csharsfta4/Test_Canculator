@@ -1,24 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Reactangle = void 0;
-var Reactangle = /** @class */ (function () {
-    function Reactangle(Width, Height) {
-        this.Width = Width;
-        this.Height = Height;
+exports.Rectangle = void 0;
+var Rectangle = /** @class */ (function () {
+    function Rectangle(width, height) {
+        this.width = width;
+        this.height = height;
+        this.type = 'rectangle';
     }
-    Reactangle.prototype.getNames = function () {
-        return "Прямоугльник";
+    Rectangle.prototype.getArea = function () {
+        // возвращаем площадь прямоугольника
+        return this.width * this.height;
     };
-    Reactangle.prototype.getPerimetr = function () {
-        return 2 * (this.Width + this.Height);
+    Rectangle.prototype.getPerimeter = function () {
+        //возвращаем периметр прямоугольника
+        return 2 * (this.width + this.height);
     };
-    Reactangle.prototype.getRadius = function () {
-        return this.Width + this.Height;
-    };
-    Reactangle.prototype.NowSize = function (Width, Height) {
-        this.Width = Width;
-        this.Height = Height;
-    };
-    return Reactangle;
+    return Rectangle;
 }());
-exports.Reactangle = Reactangle;
+exports.Rectangle = Rectangle;

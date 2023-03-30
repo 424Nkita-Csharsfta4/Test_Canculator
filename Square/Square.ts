@@ -1,33 +1,14 @@
-import {Figure} from '../Figure/Figure'
+import { Figure } from '../Figure/Figure'
 
-/**
- * * Наследуемся с Figure
- */
-export class Square implements Figure{
- 
-
-    /**
-     * * Периметр
-     */
-    public perimetr:number;
-
-    constructor(perimets:number){
-        this.perimetr = perimets;
+export class Square implements Figure {
+    type = 'square';
+    constructor(private side: number) { }
+    getArea() {
+        // получениe площади квадрата
+        return this.side ** 2;
     }
-
-    getNames():string{
-        return "Квадрат"
-    }
-
-    getPerimetr():number{
-        return 4 * this.perimetr;
-    }
-
-    getRadius():number{
-        return Math.pow(this.perimetr,2);
-    }
-    NowSide(perimetr:number):void{
-      this.perimetr = perimetr;
+    getPerimeter() {
+        //получениe периметра квадрата
+        return 4 * this.side;
     }
 }
-

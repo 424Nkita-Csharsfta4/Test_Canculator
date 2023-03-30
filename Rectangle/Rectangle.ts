@@ -1,28 +1,14 @@
-import {Figure} from '../Figure/Figure'
+import { Figure } from '../Figure/Figure'
 
-export class Reactangle implements Figure{
-        
-     public Width:number;
-     public Height:number;
-
-     constructor(Width:number,Height:number){
-         this.Width = Width;
-         this.Height = Height;
-     }
-     getNames():string{
-        return "Прямоугльник"
-     }
-      
-     getPerimetr():number{
-        return 2*(this.Width+ this.Height)
-     }
-     getRadius():number{
-        return this.Width + this.Height;
-     }
-     NowSize(Width:number,Height:number):void{
-          this.Width = Width;
-          this.Height = Height;
-     }
-
-
+export class Rectangle implements Figure {
+   type = 'rectangle';
+   constructor(private width: number, private height: number) { }
+   getArea() {
+      // возвращаем площадь прямоугольника
+      return this.width * this.height;
+   }
+   getPerimeter() {
+      //возвращаем периметр прямоугольника
+      return 2 * (this.width + this.height);
+   }
 }
