@@ -1,7 +1,0 @@
-C:\Users\tvc\source\repos\Canculate_Figur\Canculate_Figur\obj\Debug\Canculate_Figur.csproj.AssemblyReference.cache
-C:\Users\tvc\source\repos\Canculate_Figur\Canculate_Figur\obj\Debug\Canculate_Figur.csproj.CoreCompileInputs.cache
-C:\Users\tvc\source\repos\Canculate_Figur\Canculate_Figur\bin\Debug\Canculate_Figur.exe.config
-C:\Users\tvc\source\repos\Canculate_Figur\Canculate_Figur\bin\Debug\Canculate_Figur.exe
-C:\Users\tvc\source\repos\Canculate_Figur\Canculate_Figur\bin\Debug\Canculate_Figur.pdb
-C:\Users\tvc\source\repos\Canculate_Figur\Canculate_Figur\obj\Debug\Canculate_Figur.exe
-C:\Users\tvc\source\repos\Canculate_Figur\Canculate_Figur\obj\Debug\Canculate_Figur.pdb
