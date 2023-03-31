@@ -6,8 +6,10 @@ import { Square } from './Square/Square'
 import { Triangle } from './Treangle/Treangle'
 
 export class ShapeCalculator {
-    //Свойство содержашие все фигуры виде массива
-    private shapes: Figure[] = [];
+    /**
+     * Свойство содержашие все фигуры виде массива
+     */
+    public shapes: Figure[] = [];
     
 
     constructor(private filepath: string) {//Путь файла из которого будут сохранены и загружены фигуры
@@ -19,8 +21,9 @@ export class ShapeCalculator {
         }
     }
 
-   
-        //Если ошибка при записи
+             /**
+              * Если ошибка при записи фигуры в Json
+              */
         private saveShapes() {
             fs.writeFile(this.filepath, JSON.stringify(this.shapes), (err) => {
                 if (err) {

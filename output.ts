@@ -1,17 +1,27 @@
 import { ShapeCalculator } from './main';
 import { createInterface } from 'readline';
 
-const rl = createInterface({//экземпляр интерфейса для чтения ввода из консоли
+/**
+ * экземпляр интерфейса для чтения ввода из консоли
+ */
+const rl = createInterface({
     input: process.stdin,
     output: process.stdout,
 });
 
 const calculator = new ShapeCalculator('./figure.json');
 
-const handleInput = (shape: string) => { //обработчик ввода
+/**
+ * 
+ * @param shape обработчик ввода
+ */
+const handleInput = (shape: string) => { 
     switch (shape) {
         case 'круг': // если введена фигура "круг"
-            rl.question('Введите радиус:\n', (radius) => { // запрашиваем радиус у пользователя
+        /**
+         *  запрашиваем радиус у пользователя
+         */
+            rl.question('Введите радиус:\n', (radius) => {
                 calculator.addCircle(Number(radius)); // добавляем круг в список фигур
                 printTotalAreaAndShapes(); // выводим список фигур и общую площадь
             });
