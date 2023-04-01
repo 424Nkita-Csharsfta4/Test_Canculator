@@ -1,26 +1,27 @@
 import { Figure } from '../Figure/Figure'//Импортируем наш файл с Интерфейсом
 
 export class Circle implements Figure {
-     type = 'circle';
-     private Radiuse: number;
+     type = 'circle';// Тип фигуры - круг
+     private Radiuse: number;// Радиус круга
 
      constructor(radius: number) { 
           this.Radiuse = radius;
      }
+     // Геттер для получения радиуса круга
      get radius() {
           return this.Radiuse;
      }
-     /**
-      * 
-      * @returns Mетод getArea из интерфейса Figure
+    /**
+      * Метод для вычисления площади круга
+      * @returns Площадь круга по формуле Math.PI * radius^2
       */
      getArea() {
           // Возвращаем площадь круга по формуле
           return Math.PI * this.Radiuse ** 2;
      }
-     /**
-      * 
-      * @returns Mетод getPerimeter из интерфейса Figure 
+      /**
+      * Метод для вычисления периметра круга
+      * @returns Периметр круга по формуле 2 * Math.PI * radius
       */
      getPerimeter() {
           // Возвращаем периметр круга по формуле
