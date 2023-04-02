@@ -11,3 +11,5 @@
 4) Подсчитать фигуры по типам;
 5) Добавить метод который обновляет в хранимом файле инфу об фигурах с функциями добавления и обновления;
 ````
+
+<a href="https://drive.google.com/file/d/1MdPnfmDBPB0uBonPgUeXedtV_5P3jtFU/view" style="color:red">Блок схема</a>
