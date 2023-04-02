@@ -4,13 +4,13 @@ import { createInterface } from 'readline';
 /**
  * * Главный класс где происходит вычесление площади различных геометрических фигур
  */
-  class ConsoleInterface {
+  class ConsoleDisplay {
      /**
-      * @returns readline интерфейс
+      * readline интерфейс
       */
     private rl;
     /**
-     * @returns объект класса ShapeCalculator
+     *  объект класса ShapeCalculator
      */
     private calculator;
   
@@ -24,7 +24,7 @@ import { createInterface } from 'readline';
       this.calculator = new ShapeCalculator(filePath);
     }
    /**
-    *  @returns* позволяет пользователю добавлять геометрические фигуры
+    *  * позволяет пользователю добавлять геометрические фигуры
     *  (круг, квадрат, треугольник, прямоугольник) и вычислять общую площадь всех фигур
     */
     public start() {
@@ -35,8 +35,7 @@ import { createInterface } from 'readline';
       );
     }
     /**
-     * @param Обрабатываем ввод пользователя и вызываем соответствующий метод
-     * 
+     *  Обрабатываем ввод пользователя и вызываем соответствующий метод
      */
     private handleInput(shape: string) {
       switch (shape) {
@@ -58,7 +57,7 @@ import { createInterface } from 'readline';
       }
     }
     /** 
-     * @param Метод для вводa Кругa
+     *   Метод для вводa Кругa
      */
     private handleCircleInput() {
       // Запрашиваем у пользователя радиус круга
@@ -69,7 +68,7 @@ import { createInterface } from 'readline';
       });
     }
      /**
-      * @param Метод для вводa Квадрата
+      *  Метод для вводa Квадрата
       */
     private handleSquareInput() {
       // Запрашиваем у пользователя длину квадрата
@@ -81,7 +80,7 @@ import { createInterface } from 'readline';
     }
   
     /**
-     * @param Метод для вводa Треугольникa
+     * Метод для вводa Треугольникa
      */
     private handleTriangleInput() {
       // Запрашиваем у пользователя длину треугольника
@@ -99,7 +98,7 @@ import { createInterface } from 'readline';
     }
   
     /**
-     * @param Метод для вводa Прямоугольникa
+     *  Метод для вводa Прямоугольникa
      */
     private handleRectangleInput() {
       // Запрашиваем у пользователя длину прямоугольника
@@ -114,7 +113,7 @@ import { createInterface } from 'readline';
     }
   
     /**
-     *  @param Метод для вывода общей площади всех фигур
+     *   Метод для вывода общей площади всех фигур
      */
     private printTotalAreaAndShapes() {
       // выводим общую площадь всех фигур
@@ -124,4 +123,4 @@ import { createInterface } from 'readline';
     }
   }
   
-  export { ConsoleInterface };
+  export { ConsoleDisplay };
