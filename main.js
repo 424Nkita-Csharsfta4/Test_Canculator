@@ -8,8 +8,7 @@ var Square_1 = require("./Square/Square");
 var Treangle_1 = require("./Treangle/Treangle");
 var ShapeCalculator = /** @class */ (function () {
     /**
-     *
-     * @param filepath Путь файла из которого будут сохранены и загружены фигуры
+     *  filepath Путь файла из которого будут сохранены и загружены фигуры
      * происходит чтение данных из файла и преобразование их в объекты фигур
      */
     function ShapeCalculator(filepath) {

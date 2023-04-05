@@ -1,7 +1,17 @@
 import { Figure } from '../Figure/Figure'
 
+/**
+ * @param Rectangle экспортируем и реализует интерфейс
+ * в этом классе находится логика фигуры
+ */
 export class Rectangle implements Figure {
+   /**
+    * @param width ширина треугольника
+    */
    private Width: number;
+   /**
+    * @param height высота треугольника
+    */
    private Height: number;
 
    /** 
@@ -12,8 +22,8 @@ export class Rectangle implements Figure {
    /**
     * Конструктор принимает ширину и высоту прямоугольника
     * 
-    * @param width 
-    * @param height 
+    * @param width ширина треугольника
+    * @param height высота треугольника
     */
    constructor(width: number, height: number) {
       this.Width = width;

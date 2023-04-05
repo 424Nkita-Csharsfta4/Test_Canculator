@@ -1,126 +1,201 @@
 import { ShapeCalculator } from './main';
 import { createInterface } from 'readline';
-  
+
 /**
- * * Главный класс где происходит вычесление площади различных геометрических фигур
+ * класса App, принимающий путь к файлу JSON для сохранения данных о добавленных фигурах.
  */
-  class ConsoleDisplay {
-     /**
-      * readline интерфейс
-      */
-    private rl;
+class App {
+
+  constructor(private filePath: string) {
     /**
-     *  объект класса ShapeCalculator
+     *Создание экземпляра интерфейса для взаимодействия с пользователем
      */
-    private calculator;
-  
-    constructor(private filePath: string) {
-      // readline интерфейс
-      this.rl = createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-      //объект класса ShapeCalculator
-      this.calculator = new ShapeCalculator(filePath);
-    }
-   /**
-    *  * позволяет пользователю добавлять геометрические фигуры
-    *  (круг, квадрат, треугольник, прямоугольник) и вычислять общую площадь всех фигур
-    */
-    public start() {
-      this.rl.question(
-        'Какую бы фигуру вы хотели добавить? (круг, квадрат, треугольник, прямоугольник)\n',
-        // привязываем контекст метода handleInput() к класса ConsoleInterface
-        this.handleInput.bind(this)
-      );
-    }
+    this.rl = createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
     /**
-     *  Обрабатываем ввод пользователя и вызываем соответствующий метод
+     *  Создание экземпляра класса ShapeCalculator
      */
-    private handleInput(shape: string) {
-      switch (shape) {
-        case 'круг':
-          this.handleCircleInput();
-          break;
-        case 'квадрат':
-          this.handleSquareInput();
-          break;
-        case 'треугольник':
-          this.handleTriangleInput();
-          break;
-        case 'прямоугольник':
-          this.handleRectangleInput();
-          break;
-        default:
-          console.log('Введена недопустимая величина.');
-          this.rl.close();
-      }
-    }
-    /** 
-     *   Метод для вводa Кругa
-     */
-    private handleCircleInput() {
-      // Запрашиваем у пользователя радиус круга
-      this.rl.question('Введите радиус:\n', (radius) => {
-         // вызываем метод addCircle() объекта ShapeCalculator, передавая в него радиус
-        this.calculator.addCircle(Number(radius));
-        this.printTotalAreaAndShapes();
-      });
-    }
-     /**
-      *  Метод для вводa Квадрата
-      */
-    private handleSquareInput() {
-      // Запрашиваем у пользователя длину квадрата
-      this.rl.question('Введите длину стороны:\n', (length) => {
-        // вызываем метод addSquare() объекта ShapeCalculator, передавая в него длину  
-        this.calculator.addSquare(Number(length));
-        this.printTotalAreaAndShapes();
-      });
-    }
-  
+    this.calculator = new ShapeCalculator(filePath);
+  }
+  /**
+  * readline интерфейс
+  */
+  private rl;
+
+  /**
+  *  объект класса ShapeCalculator
+  */
+  private calculator;
+
+  /**
+  *  метод, который запускает программу
+  */
+  public Run() {
     /**
-     * Метод для вводa Треугольникa
+     * Запрос на ввод пользователем фигуры
      */
-    private handleTriangleInput() {
-      // Запрашиваем у пользователя длину треугольника
-      this.rl.question('Укажите длину стороны A:\n', (a) => {
-         // Запрашиваем у пользователя длину треугольника
-        this.rl.question('Введите длину стороны B:\n', (b) => {
-          // Запрашиваем у пользователя длину треугольника
-          this.rl.question('Укажите длину стороны C:\n', (c) => {
-            // вызываем метод addTriangle() объекта ShapeCalculator, передавая длину
-            this.calculator.addTriangle(Number(a), Number(b), Number(c));
-            this.printTotalAreaAndShapes();
-          });
+    this.rl.question(
+      'Какую бы фигуру вы хотели добавить? (круг, квадрат, треугольник, прямоугольник)\n',
+      this.handleInput.bind(this)
+    );
+  }
+  /**
+   * Обработка ввода пользователем фигуры
+   */
+  private handleInput(shape: string) {
+    switch (shape) {
+      case 'круг':
+        /**
+         * Запрос на ввод пользователем радиуса
+         */
+        this.rl.question('Введите радиус:\n', (input) => {
+          this.handleCircleInput(input);
         });
-      });
+        break;
+      /**
+       * Запрос на ввод пользователем радиуса
+       */
+      case 'квадрат':
+        this.rl.question('Введите длину стороны:\n', (input) => this.handleSquareInput(input));
+        break;
+      case 'треугольник':
+        /**
+         *  Запрос на ввод пользователем длин сторон треугольника
+         */
+        this.handleTriangleInput();
+        break;
+      case 'прямоугольник':
+        /**
+         *  Запрос на ввод пользователем длины и ширины прямоугольника
+         */
+        this.handleRectangleInput();
+        break;
+      default:
+        console.log('Введена недопустимая величина.');
+        this.rl.close();
     }
-  
+  }
+
+
+  /**
+   *  Обработка ввода пользователем радиуса круга
+   */
+  private handleCircleInput(input: string) {
+    const radius = Number(input);
+    if (isNaN(radius)) {
+      console.log('Ошибка: радиус должен быть числом.');
+      return;
+    }
     /**
-     *  Метод для вводa Прямоугольникa
+     *  Добавление круга в список фигур и вывод общей площади всех фигур
      */
-    private handleRectangleInput() {
-      // Запрашиваем у пользователя длину прямоугольника
-      this.rl.question('Введите длину:\n', (length) => {
-        // Запрашиваем у пользователя длину прямоугольника
-        this.rl.question('Введите ширину:\n', (width) => {
-          // вызываем метод addRectangle() объекта ShapeCalculator, передавая длину
-          this.calculator.addRectangle(Number(length), Number(width));
+    this.calculator.addCircle(radius);
+    this.printTotalAreaAndShapes();
+  }
+
+  /**
+   *  Приватный метод, обрабатывающий ввод пользователя для квадрата
+   */
+  private handleSquareInput(input: string) {
+    /**
+     * Преобразует ввод пользователя в число
+     */
+    const length = Number(input);
+    /**
+     * Проверяет, является ли введенное
+     */
+    if (isNaN(length)) {
+      console.log('Ошибка: длина должна быть числом.');
+      return;
+    }
+    /**
+     * Добавляет квадрат в список фигур, рассчитывает и выводит общую площадь фигур
+     */
+    this.calculator.addSquare(length);
+    this.printTotalAreaAndShapes();
+  }
+
+
+  /**
+   * Приватный метод, обрабатывающий ввод пользователя для треугольника
+   */
+  private handleTriangleInput() {
+    /**
+     * Запрашиваем у пользователя стороны треугольника
+     */
+    this.rl.question('Укажите длину стороны A:\n', (a) => {
+      this.rl.question('Введите длину стороны B:\n', (b) => {
+        this.rl.question('Укажите длину стороны C:\n', (c) => {
+
+          /**
+           * Добавляет треугольник в список фигур, рассчитывает и выводит общую площадь фигур
+           */
+          this.calculator.addTriangle(Number(a), Number(b), Number(c));
           this.printTotalAreaAndShapes();
         });
       });
-    }
-  
-    /**
-     *   Метод для вывода общей площади всех фигур
-     */
-    private printTotalAreaAndShapes() {
-      // выводим общую площадь всех фигур
-      this.calculator.printAllShapes();
-      console.log(`Общая площадь: ${this.calculator.getTotalArea()}`);
-      this.rl.close();
-    }
+    });
   }
-  
-  export { ConsoleDisplay };
+  /**
+   * ввод пользователя для прямоугольника
+   */
+  private handleRectangleInput() {
+    /**
+     *  Запрашивает у пользователя ввод длин сторон прямоугольника
+     */
+    this.rl.question('Введите длину:\n', (length) => {
+      this.rl.question('Введите ширину:\n', (width) => {
+        /**
+         * Добавляет прямоугольник в список фигур, рассчитывает и выводит общую площадь фигур
+         */
+        this.calculator.addRectangle(Number(length), Number(width));
+        this.printTotalAreaAndShapes();
+      });
+    });
+  }
+
+  /**
+   * Вывод всех фигур общую площадь всех добавленных фигур и запрашивающий у пользователя, 
+   * хочет ли он добавить еще фигуру
+   */
+  private printTotalAreaAndShapes() {
+
+    /**
+     *  вывод на экран всех добавленные фигуры
+     */
+    this.calculator.printAllShapes();
+    /**
+     * Задает вопрос пользователю, хочет ли он добавить еще фигуру
+     */
+    this.rl.question(
+      'Хотите добавить еще фигуру? (да/нет)\n',
+      (answer) => {
+        /**
+         *  Если "да", запрашивает тип фигуры
+         */
+        if (answer === 'да') {
+          this.rl.question(
+            /**
+             * ввод к текущему экземпляру класса App
+             */
+            'Какую бы фигуру вы хотели добавить? (круг, квадрат, треугольник, прямоугольник)\n',
+            this.handleInput.bind(this)
+          );
+        } else {
+          /**
+           * Если "нет", выводит на экран то пока
+           */
+          console.log('Пока!');
+          this.rl.close();
+        }
+      }
+    );
+  }
+}
+/**
+ * Создание экземпляра класса App с указанием пути к файлу с данными и запуск приложения app.Run();
+ */
+const app = new App('./shapes.json');
+app.Run();

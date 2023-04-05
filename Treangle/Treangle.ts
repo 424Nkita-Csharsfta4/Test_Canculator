@@ -1,5 +1,9 @@
 import { Figure } from '../Figure/Figure';
 
+/**
+ * @param Triangle экспортируем и реализует интерфейс
+ * в этом классе находится логика фигуры
+ */
 export class Triangle implements Figure {
   /**
    * Тип фигуры - треугольник
@@ -9,9 +13,9 @@ export class Triangle implements Figure {
     /**
      * конструктор, который принимает три аргумента для сторон треугольника
      * 
-     * @param a 
-     * @param b 
-     * @param c 
+     * @param a сторона
+     * @param b сторона
+     * @param c сторона
      */
     constructor(private a: number, private b: number, private c: number) {}
 

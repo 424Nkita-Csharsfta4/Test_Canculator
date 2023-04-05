@@ -1,5 +1,9 @@
 import { Figure } from '../Figure/Figure'
 
+/**
+ * @param Square экспортируем и реализует интерфейс
+ * в этом классе находится логика фигуры
+ */
 export class Square implements Figure {
     /** 
      * Тип фигуры - Квадрат

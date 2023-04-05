@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Circle = void 0;
+/**
+ * Класс Circle экспортируем и реализует интерфейс
+ * в этом классе находится логика фигуры
+ */
 var Circle = /** @class */ (function () {
     function Circle(radius) {
         this.type = 'circle'; // Тип фигуры - круг

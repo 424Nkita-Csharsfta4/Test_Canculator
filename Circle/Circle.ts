@@ -1,5 +1,9 @@
-import { Figure } from '../Figure/Figure'//Импортируем наш файл с Интерфейсом
+import { Figure } from '../Figure/Figure'
 
+/**
+ * Класс Circle экспортируем и реализует интерфейс
+ * в этом классе находится логика фигуры
+ */
 export class Circle implements Figure {
      type = 'circle';// Тип фигуры - круг
      private Radiuse: number;// Радиус круга

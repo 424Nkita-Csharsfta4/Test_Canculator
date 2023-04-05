@@ -1,15 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Rectangle = void 0;
+/**
+ * @param Rectangle экспортируем и реализует интерфейс
+ * в этом классе находится логика фигуры
+ */
 var Rectangle = /** @class */ (function () {
-    // Конструктор принимает ширину и высоту прямоугольника
+    /**
+     * Конструктор принимает ширину и высоту прямоугольника
+     *
+     * @param width ширина треугольника
+     * @param height высота треугольника
+     */
     function Rectangle(width, height) {
-        this.type = 'rectangle'; // Тип фигуры - треугольник
+        /**
+         * Тип фигуры - треугольник
+         */
+        this.type = 'rectangle';
         this.Width = width;
         this.Height = height;
     }
     Object.defineProperty(Rectangle.prototype, "width", {
-        // Геттеры для получения ширины и высоты
+        /**
+         * Геттеры для получения ширины и высоты
+         */
         get: function () {
             return this.Width;
         },
@@ -24,16 +38,14 @@ var Rectangle = /** @class */ (function () {
         configurable: true
     });
     /**
-    *
-    * @returns Метод getArea из интерфейса Figure
+    * Метод getArea из интерфейса Figure
     */
     Rectangle.prototype.getArea = function () {
         // возвращаем площадь прямоугольника
         return this.Width * this.Height;
     };
     /**
-    *
-    * @returns Метод getPerimeter из интерфейса Figure
+    * Метод getPerimeter из интерфейса Figure
     */
     Rectangle.prototype.getPerimeter = function () {
         //возвращаем периметр прямоугольника
