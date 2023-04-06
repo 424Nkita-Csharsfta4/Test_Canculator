@@ -12,4 +12,4 @@
 5) Добавить метод который обновляет в хранимом файле инфу об фигурах с функциями добавления и обновления;
 ````
 
-<a href="https://drive.google.com/file/d/1MdPnfmDBPB0uBonPgUeXedtV_5P3jtFU/view" style="color:red">Блок схема</a>
+<a href="https://drive.google.com/file/d/1ykAHzyXa3uy0Hnhd3kDzcuBZBA6SyZpq/view" style="color:red">Блок схема</a>
