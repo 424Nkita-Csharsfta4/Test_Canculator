@@ -50,9 +50,7 @@ class App {
         /**
          * Запрос на ввод пользователем радиуса
          */
-        this.rl.question('Введите радиус:\n', (input) => {
-          this.handleCircleInput(input);
-        });
+        this.rl.question('Введите радиус:\n', this.handleCircleInput);
         break;
       /**
        * Запрос на ввод пользователем радиуса
@@ -125,19 +123,17 @@ class App {
     /**
      * Запрашиваем у пользователя стороны треугольника
      */
-    this.rl.question('Укажите длину стороны A:\n', (a) => {
-      this.rl.question('Введите длину стороны B:\n', (b) => {
-        this.rl.question('Укажите длину стороны C:\n', (c) => {
-
-          /**
-           * Добавляет треугольник в список фигур, рассчитывает и выводит общую площадь фигур
-           */
-          this.calculator.addTriangle(Number(a), Number(b), Number(c));
-          this.printTotalAreaAndShapes();
-        });
-      });
+    this.rl.question('Введите длины сторон треугольника, разделенные точкой с запятой (например, 5;7;8):\n', (input) => {
+      const [a, b, c] = input.split(';');
+  
+      /**
+       * Добавляет треугольник в список фигур, рассчитывает и выводит общую площадь фигур
+       */
+      this.calculator.addTriangle(Number(a), Number(b), Number(c));
+      this.printTotalAreaAndShapes();
     });
   }
+  
   /**
    * ввод пользователя для прямоугольника
    */
