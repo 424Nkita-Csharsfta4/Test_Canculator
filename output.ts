@@ -18,7 +18,11 @@ class App {
      *  Создание экземпляра класса ShapeCalculator
      */
     this.calculator = new ShapeCalculator(filePath);
+
+    // Bind handleCircleInput method to the class instance
+    this.handleCircleInput = this.handleCircleInput.bind(this);
   }
+
   /**
   * readline интерфейс
   */
@@ -125,7 +129,7 @@ class App {
      */
     this.rl.question('Введите длины сторон треугольника, разделенные точкой с запятой (например, 5;7;8):\n', (input) => {
       const [a, b, c] = input.split(';');
-  
+
       /**
        * Добавляет треугольник в список фигур, рассчитывает и выводит общую площадь фигур
        */
@@ -133,23 +137,18 @@ class App {
       this.printTotalAreaAndShapes();
     });
   }
-  
+
   /**
    * ввод пользователя для прямоугольника
    */
   private handleRectangleInput() {
-    /**
-     *  Запрашивает у пользователя ввод длин сторон прямоугольника
-     */
-    this.rl.question('Введите длину:\n', (length) => {
-      this.rl.question('Введите ширину:\n', (width) => {
-        /**
-         * Добавляет прямоугольник в список фигур, рассчитывает и выводит общую площадь фигур
-         */
-        this.calculator.addRectangle(Number(length), Number(width));
-        this.printTotalAreaAndShapes();
-      });
-    });
+    this.rl.question('Введите длину:\n', (length) => this.rl.question('Введите ширину:\n', (width) => {
+      /**
+       * Добавляет прямоугольник в список фигур, рассчитывает и выводит общую площадь фигур
+       */
+      this.calculator.addRectangle(Number(length), Number(width));
+      this.printTotalAreaAndShapes();
+    }));
   }
 
   /**

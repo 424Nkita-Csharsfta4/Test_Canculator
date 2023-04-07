@@ -19,6 +19,8 @@ var App = /** @class */ (function () {
          *  Создание экземпляра класса ShapeCalculator
          */
         this.calculator = new main_1.ShapeCalculator(filePath);
+        // Bind handleCircleInput method to the class instance
+        this.handleCircleInput = this.handleCircleInput.bind(this);
     }
     /**
     *  метод, который запускает программу
