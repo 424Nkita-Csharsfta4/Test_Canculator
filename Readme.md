@@ -13,3 +13,7 @@
 ````
 
 <a href="https://drive.google.com/file/d/1ykAHzyXa3uy0Hnhd3kDzcuBZBA6SyZpq/view" style="color:red">Блок схема</a>
+
+
+https://user-images.githubusercontent.com/103760832/230539443-fe6065ab-1de1-4c69-b47f-489886b641ef.mp4
+
