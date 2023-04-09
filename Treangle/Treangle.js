@@ -26,11 +26,8 @@ var Triangle = /** @class */ (function () {
      * Метод для вычисления площади треугольника
      */
     Triangle.prototype.getArea = function () {
-        /**
-         * площадь треугольника с помощью формулы Герона
-         */
-        var s = (this.a + this.b + this.c) / 2;
-        return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+        var p = (this.a + this.b + this.c) / 2;
+        return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
     };
     /**
      *  Метод для вычисления периметра треугольника

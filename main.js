@@ -25,6 +25,17 @@ var ShapeCalculator = /** @class */ (function () {
             console.log("\u041E\u0448\u0438\u0431\u043A\u0430 \u0447\u0442\u0435\u043D\u0438\u044F \u0444\u0430\u0439\u043B\u0430: ".concat(error.message));
         }
     }
+    ShapeCalculator.prototype.getTotalShapesCount = function () {
+        return this.shapes.length;
+    };
+    ShapeCalculator.prototype.calculateTotalArea = function () {
+        var totalArea = 0;
+        for (var _i = 0, _a = this.shapes; _i < _a.length; _i++) {
+            var shape = _a[_i];
+            totalArea += shape.getArea();
+        }
+        return totalArea;
+    };
     /**
      * Метод для сохранения всех фигур в файл
      * Если происходит ошибка при сохранении, выводится сообщение об ошибке

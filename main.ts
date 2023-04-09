@@ -11,6 +11,17 @@ export class ShapeCalculator {
      */
     public shapes: Figure[] = [];
 
+    getTotalShapesCount() {
+        return this.shapes.length;
+      }
+      calculateTotalArea() {
+        let totalArea = 0;
+        for (const shape of this.shapes) {
+          totalArea += shape.getArea();
+        }
+        return totalArea;
+      }
+
     /**
      *  filepath Путь файла из которого будут сохранены и загружены фигуры 
      * происходит чтение данных из файла и преобразование их в объекты фигур

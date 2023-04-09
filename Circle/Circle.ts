@@ -19,10 +19,9 @@ export class Circle implements Figure {
       * Метод для вычисления площади круга
       * @returns Площадь круга по формуле Math.PI * radius^2
       */
-     getArea() {
-          // Возвращаем площадь круга по формуле
-          return Math.PI * this.Radiuse ** 2;
-     }
+    public getArea(): number {
+     return Math.PI * this.radius * this.radius;
+   }
       /**
       * Метод для вычисления периметра круга
       * @returns Периметр круга по формуле 2 * Math.PI * radius

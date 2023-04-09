@@ -20,8 +20,7 @@ var Square = /** @class */ (function () {
      *  Метод getArea из интерфейса Figure, возвращает площадь квадрата
      */
     Square.prototype.getArea = function () {
-        // получениe площади квадрата
-        return Math.pow(this.side, 2);
+        return this.side * this.side;
     };
     /**
     *  Метод getPerimeter из интерфейса Figure, возвращает периметр квадрата

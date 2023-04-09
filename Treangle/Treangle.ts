@@ -22,12 +22,9 @@ export class Triangle implements Figure {
     /**
      * Метод для вычисления площади треугольника
      */
-    getArea() {
-      /**
-       * площадь треугольника с помощью формулы Герона
-       */
-      const s = (this.a + this.b + this.c) / 2;
-      return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+    public getArea(): number {
+      const p = (this.a + this.b + this.c) / 2;
+      return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
     }
 
     /**

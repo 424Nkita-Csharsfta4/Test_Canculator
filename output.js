@@ -3,177 +3,103 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var main_1 = require("./main");
 var readline_1 = require("readline");
 /**
- * класса App, принимающий путь к файлу JSON для сохранения данных о добавленных фигурах.
+ * Класс App, принимающий путь к файлу JSON для сохранения данных о добавленных фигурах.
  */
 var App = /** @class */ (function () {
     function App(filePath) {
         this.filePath = filePath;
-        /**
-         *Создание экземпляра интерфейса для взаимодействия с пользователем
-         */
         this.rl = (0, readline_1.createInterface)({
             input: process.stdin,
             output: process.stdout,
         });
-        /**
-         *  Создание экземпляра класса ShapeCalculator
-         */
         this.calculator = new main_1.ShapeCalculator(filePath);
-        // Bind handleCircleInput method to the class instance
         this.handleCircleInput = this.handleCircleInput.bind(this);
     }
-    /**
-    *  метод, который запускает программу
-    */
-    App.prototype.Run = function () {
-        /**
-         * Запрос на ввод пользователем фигуры
-         */
-        this.rl.question('Какую бы фигуру вы хотели добавить? (круг, квадрат, треугольник, прямоугольник)\n', this.handleInput.bind(this));
+    App.prototype.run = function () {
+        var _this = this;
+        var askForShape = function () {
+            _this.rl.question('Какую бы фигуру вы хотели добавить?\n (1) круг, \n 2) квадрат,\n  3) треугольник,\n  4) прямоугольник,\n  5) вся площадь и количество фигур)\n', _this.handleInput.bind(_this));
+        };
+        askForShape();
+        // Запуск цикла, чтобы пользователь мог продолжать добавлять фигуры
+        this.rl.on('close', function () {
+            console.log('До свидания!');
+            process.exit(0);
+        });
+        this.rl.on('line', function () {
+            askForShape();
+        });
     };
-    /**
-     * Обработка ввода пользователем фигуры
-     */
+    App.prototype.printTotalAreaAndShapes = function () {
+        var totalArea = this.calculator.calculateTotalArea();
+        var totalShapes = this.calculator.getTotalShapesCount();
+        console.log("\u041E\u0431\u0449\u0430\u044F \u043F\u043B\u043E\u0449\u0430\u0434\u044C \u0432\u0441\u0435\u0445 \u0444\u0438\u0433\u0443\u0440: ".concat(totalArea));
+        console.log("\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0444\u0438\u0433\u0443\u0440: ".concat(totalShapes));
+    };
     App.prototype.handleInput = function (shape) {
         var _this = this;
         switch (shape) {
-            case 'круг':
-                /**
-                 * Запрос на ввод пользователем радиуса
-                 */
+            case '1':
                 this.rl.question('Введите радиус:\n', this.handleCircleInput);
                 break;
-            /**
-             * Запрос на ввод пользователем радиуса
-             */
-            case 'квадрат':
+            case '2':
                 this.rl.question('Введите длину стороны:\n', function (input) { return _this.handleSquareInput(input); });
                 break;
-            case 'треугольник':
-                /**
-                 *  Запрос на ввод пользователем длин сторон треугольника
-                 */
+            case '3':
                 this.handleTriangleInput();
                 break;
-            case 'прямоугольник':
-                /**
-                 *  Запрос на ввод пользователем длины и ширины прямоугольника
-                 */
+            case '4':
                 this.handleRectangleInput();
+                break;
+            case '5':
+                this.printTotalAreaAndShapes();
                 break;
             default:
                 console.log('Введена недопустимая величина.');
-                this.rl.close();
+                break;
         }
     };
-    /**
-     *  Обработка ввода пользователем радиуса круга
-     */
     App.prototype.handleCircleInput = function (input) {
         var radius = Number(input);
         if (isNaN(radius)) {
             console.log('Ошибка: радиус должен быть числом.');
+            this.rl.prompt();
             return;
         }
-        /**
-         *  Добавление круга в список фигур и вывод общей площади всех фигур
-         */
         this.calculator.addCircle(radius);
-        this.printTotalAreaAndShapes();
+        this.rl.prompt();
     };
-    /**
-     *  Приватный метод, обрабатывающий ввод пользователя для квадрата
-     */
     App.prototype.handleSquareInput = function (input) {
-        /**
-         * Преобразует ввод пользователя в число
-         */
         var length = Number(input);
-        /**
-         * Проверяет, является ли введенное
-         */
         if (isNaN(length)) {
             console.log('Ошибка: длина должна быть числом.');
+            this.rl.prompt();
             return;
         }
-        /**
-         * Добавляет квадрат в список фигур, рассчитывает и выводит общую площадь фигур
-         */
         this.calculator.addSquare(length);
-        this.printTotalAreaAndShapes();
+        this.rl.prompt();
     };
-    /**
-     * Приватный метод, обрабатывающий ввод пользователя для треугольника
-     */
     App.prototype.handleTriangleInput = function () {
         var _this = this;
-        /**
-         * Запрашиваем у пользователя стороны треугольника
-         */
-        this.rl.question('Введите длины сторон треугольника, разделенные точкой с запятой (например, 5;7;8):\n', function (input) {
-            var _a = input.split(';'), a = _a[0], b = _a[1], c = _a[2];
-            /**
-             * Добавляет треугольник в список фигур, рассчитывает и выводит общую площадь фигур
-             */
-            _this.calculator.addTriangle(Number(a), Number(b), Number(c));
-            _this.printTotalAreaAndShapes();
-        });
+        var onInputReceived = function (input) {
+            var _a = input.split(',').map(Number), a = _a[0], b = _a[1], c = _a[2];
+            _this.calculator.addTriangle(a, b, c);
+            _this.rl.prompt();
+        };
+        this.rl.question('Введите длины сторон треугольника, разделенные точкой с запятой (например, 5,7,8):\n', onInputReceived);
     };
-    /**
-     * ввод пользователя для прямоугольника
-     */
     App.prototype.handleRectangleInput = function () {
         var _this = this;
-        /**
-         *  Запрашивает у пользователя ввод длин сторон прямоугольника
-         */
-        this.rl.question('Введите длину:\n', function (length) {
-            _this.rl.question('Введите ширину:\n', function (width) {
-                /**
-                 * Добавляет прямоугольник в список фигур, рассчитывает и выводит общую площадь фигур
-                 */
-                _this.calculator.addRectangle(Number(length), Number(width));
-                _this.printTotalAreaAndShapes();
-            });
-        });
-    };
-    /**
-     * Вывод всех фигур общую площадь всех добавленных фигур и запрашивающий у пользователя,
-     * хочет ли он добавить еще фигуру
-     */
-    App.prototype.printTotalAreaAndShapes = function () {
-        var _this = this;
-        /**
-         *  вывод на экран всех добавленные фигуры
-         */
-        this.calculator.printAllShapes();
-        /**
-         * Задает вопрос пользователю, хочет ли он добавить еще фигуру
-         */
-        this.rl.question('Хотите добавить еще фигуру? (да/нет)\n', function (answer) {
-            /**
-             *  Если "да", запрашивает тип фигуры
-             */
-            if (answer === 'да') {
-                _this.rl.question(
-                /**
-                 * ввод к текущему экземпляру класса App
-                 */
-                'Какую бы фигуру вы хотели добавить? (круг, квадрат, треугольник, прямоугольник)\n', _this.handleInput.bind(_this));
-            }
-            else {
-                /**
-                 * Если "нет", выводит на экран то пока
-                 */
-                console.log('Пока!');
-                _this.rl.close();
-            }
-        });
+        var onLengthAndWidthReceived = function (input) {
+            var _a = input.split(',').map(Number), length = _a[0], width = _a[1];
+            _this.calculator.addRectangle(length, width);
+            _this.rl.prompt();
+        };
+        this.rl.question('Введите длину и ширину прямоугольника, разделенные точкой с запятой (например, 5,7):\n', onLengthAndWidthReceived);
     };
     return App;
 }());
-/**
- * Создание экземпляра класса App с указанием пути к файлу с данными и запуск приложения app.Run();
- */
+// Создание экземпляра приложения
 var app = new App('./shapes.json');
-app.Run();
+// Запуск приложения
+app.run();

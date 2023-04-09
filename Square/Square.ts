@@ -18,10 +18,9 @@ export class Square implements Figure {
     /**
      *  Метод getArea из интерфейса Figure, возвращает площадь квадрата
      */
-    getArea() {
-        // получениe площади квадрата
-        return this.side ** 2;
-    }
+    public getArea(): number {
+        return this.side * this.side;
+      }
     /**
     *  Метод getPerimeter из интерфейса Figure, возвращает периметр квадрата
     */

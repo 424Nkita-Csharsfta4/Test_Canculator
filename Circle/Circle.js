@@ -23,8 +23,7 @@ var Circle = /** @class */ (function () {
       * @returns Площадь круга по формуле Math.PI * radius^2
       */
     Circle.prototype.getArea = function () {
-        // Возвращаем площадь круга по формуле
-        return Math.PI * Math.pow(this.Radiuse, 2);
+        return Math.PI * this.radius * this.radius;
     };
     /**
     * Метод для вычисления периметра круга
