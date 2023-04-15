@@ -1,4 +1,4 @@
-import { Figure } from '../Figure/Figure'
+import type { Figure } from '../Figure';
 
 /**
  * @param Rectangle экспортируем и реализует интерфейс
@@ -13,11 +13,6 @@ export class Rectangle implements Figure {
     * @param height высота треугольника
     */
    private Height: number;
-
-   /** 
-    * Тип фигуры - треугольник
-    */
-   type = 'rectangle';
    
    /**
     * Конструктор принимает ширину и высоту прямоугольника
@@ -25,10 +20,12 @@ export class Rectangle implements Figure {
     * @param width ширина треугольника
     * @param height высота треугольника
     */
-   constructor(width: number, height: number) {
+   constructor(width: number, height: number,name: string) {
       this.Width = width;
       this.Height = height;
+      this.name = name;
    }
+   name: string;
    /** 
     * Геттеры для получения ширины и высоты
     */

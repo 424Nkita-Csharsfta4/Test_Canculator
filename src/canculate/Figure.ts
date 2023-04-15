@@ -1,8 +1,8 @@
 export interface Figure{
     /**
-     * Тип фигуры
+     * Имя фигуры
      */
-    type: string;
+    name: string;
     /**
      * Возврат площяди фигуры метод
      */

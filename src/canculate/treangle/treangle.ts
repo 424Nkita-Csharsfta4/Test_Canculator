@@ -1,14 +1,10 @@
-import { Figure } from '../Figure/Figure';
+import type { Figure } from '../Figure';
 
 /**
  * @param Triangle экспортируем и реализует интерфейс
  * в этом классе находится логика фигуры
  */
 export class Triangle implements Figure {
-  /**
-   * Тип фигуры - треугольник
-   */
-    type = 'triangle';
 
     /**
      * конструктор, который принимает три аргумента для сторон треугольника
@@ -17,24 +13,24 @@ export class Triangle implements Figure {
      * @param b сторона
      * @param c сторона
      */
-    constructor(private a: number, private b: number, private c: number) {}
+    constructor(private a: number, private b: number, private c: number, name: string) {
+        this.name = name;
+    }
+    name: string;
 
     /**
      * Метод для вычисления площади треугольника
      */
     public getArea(): number {
-      const p = (this.a + this.b + this.c) / 2;
-      return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
+        const p = (this.a + this.b + this.c) / 2;
+        return Math.sqrt(p * (p - this.a) * (p - this.b) * (p - this.c));
     }
 
     /**
      *  Метод для вычисления периметра треугольника
      */
     getPerimeter() {
-      //периметр треугольника, складывая длины всех его сторон
-      return this.a + this.b + this.c;
+        //периметр треугольника, складывая длины всех его сторон
+        return this.a + this.b + this.c;
     }
-  }
-
-
-
+}
