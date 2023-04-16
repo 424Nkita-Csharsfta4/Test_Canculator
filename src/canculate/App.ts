@@ -1,79 +1,139 @@
-import { ref } from 'vue';
-import type { Figure } from './Figure';
 import type { ICommand } from './Icomands';
-import { saveAs } from 'file-saver';
+import { Circle } from './circle/circle';
+import { Rectangle } from './rectangle/rectangle';
+import { Square } from './square/square';
+import { Triangle } from './treangle/treangle';
 
-/**
+export default class App {
+    commands: ICommand[] = [];
+    history: string[] = [];
+    constructor(shapes: ICommand[]) {
+        const addCommand: ICommand = {
+            name: 'Добавить',
+            description: 'Добавить новую фигуру',
+            execute: (params: string) => {
+                const [type, ...args] = params.split(' ');
 
-Класс App является главным классом, который содержит всю логику приложения.
-Он принимает дженерик типа T, который определяет тип команд, принимаемых приложением.
-*/
-export class App<T extends ICommand> {
-    shapes = ref<Figure[]>([]);
-    commands: T[];
-    commandHistory = ref<string[]>([]);
-    shapeHistory = ref<string[]>([]);
-    static Commands: any;
+                switch (type) {
+                    case 'Круг':
+                        shapes.push(new Circle(...args.map(Number)));
+                        console.log('Круг добавлен');
+                        break;
+                    case 'Квадрат':
+                        shapes.push(new Square(...args.map(Number)));
+                        console.log('Квадрат добавлен');
+                        break;
+                    case 'Прямоугольник':
+                        shapes.push(new Rectangle(...args.map(Number)));
+                        console.log('Прямоугольник добавлен');
+                        break;
+                    case 'Треугольник':
+                        shapes.push(new Triangle(...args.map(Number)));
+                        console.log('Треугольник добавлен');
+                        break;
+                    default:
+                        console.log('Нет такой фигуры');
+                        break;
+                }
+            },
+        };
 
-    /**
-    
-    Конструктор принимает список команд типа T.
-    @param commands - список команд типа T.
-    */
-    constructor(commands: T[]) {
-        this.commands = commands;
+        const listCommand: ICommand = {
+            name: 'Список',
+            description: 'Список всех фигур',
+            execute: () => {
+                shapes.forEach((shape) => {
+                    console.log(shape.toString());
+                });
+            },
+        };
+
+        const areaCommand: ICommand = {
+            name: 'площадь',
+            description: 'Вычислите общую площадь всех фигур',
+            execute: () => {
+                const totalArea = shapes.reduce((acc, shape) => {
+                    return acc + shape.getArea();
+                }, 0);
+                console.log(`Общая площадь: ${totalArea.toFixed(2)}`);
+            },
+        };
+
+        const perimeterCommand: ICommand = {
+            name: 'периметр',
+            description: 'Вычислите общий периметр всех фигур',
+            execute: () => {
+                const totalPerimeter = shapes.reduce((acc, shape) => {
+                    return acc + shape.getPerimeter();
+                }, 0);
+                console.log(`Общий периметр: ${totalPerimeter.toFixed(2)}`);
+            },
+        };
+
+        const countCommand: ICommand = {
+            name: 'считать',
+            description: 'Подсчитайте количество фигур',
+            execute: () => {
+                console.log(`Количество фигур: ${shapes.length}`);
+            },
+        };
+
+        const removeCommand: ICommand = {
+            name: 'удалить',
+            description: 'Удалить фигуру по индексу',
+            execute: (params: string) => {
+                const index = Number(params);
+                if (isNaN(index) || index < 1 || index > shapes.length) {
+                    console.log('Неверный индекс');
+                } else {
+                    shapes.splice(index - 1, 1);
+                    console.log(`Форма ${index} удалено`);
+                }
+            },
+        };
+
+        const updateCommand: ICommand = {
+            name: 'обновить',
+            description: 'обновить форма по индексу и параметрам',
+            execute: (params: string) => {
+                const [indexStr, type, ...args] = params.split(' ');
+                const index = Number(indexStr);
+                if (isNaN(index) || index < 1 || index > shapes.length) {
+                    console.log('Неверный индекс');
+                } else {
+                    switch (type) {
+                        case 'Круг':
+                            shapes[index - 1] = new Circle(...args.map(Number));
+                            console.log(`Фигура ${index} обновлена`);
+                            break;
+                        case 'Квадрат':
+                            shapes[index - 1] = new Square(...args.map(Number));
+                            console.log(`Фигура${index} обновлена`);
+                            break;
+                        case 'Прямоугольник': shapes[index - 1] = new Rectangle(...args.map(Number));
+                            console.log(`Фигура ${index} обновлена`);
+                            break;
+                        case 'Треугольник': shapes[index - 1] = new Triangle(...args.map(Number));
+                            console.log(`Фигура ${index} обновлена`);
+                            break;
+                        default:
+                            console.log('Нет такой Фигуры');
+                            break;
+                    }
+                }
+            },
+        };
+        this.commands.push(addCommand);
+        this.commands.push(listCommand);
+        this.commands.push(areaCommand);
+        this.commands.push(perimeterCommand);
+        this.commands.push(countCommand);
+        this.commands.push(removeCommand);
+        this.commands.push(updateCommand);
     }
-    /**
-    
-    Метод enterCommand принимает команду в виде строки и выполняет соответствующую команду.
-    @param command - строка, содержащая команду для выполнения.
-    */
-    enterCommand(command: string): void {
-        const [name, params] = this.getCommand(command);
-        const commandObj = this.commands.find((c) => c.name === name);
-        if (commandObj) {
-            commandObj.execute(this.shapes.value, params);
-            this.commandHistory.value.push(command);
-            this.shapeHistory.value.push(this.shapesToString());
-        }
-    }
-    /**
-    
-    Метод getCommand принимает строку с командой и возвращает ее название и параметры.
-    @param command - строка с командой.
-    @returns - кортеж из двух строк: название команды и параметры.
-    */
-    getCommand(command: string): [string, string] {
-        const parts = command.trim().split(/\s+/);
-        const name = parts.shift()?.toLowerCase() || '';
-        const params = parts.join(' ');
-        return [name, params];
-    }
-    /**
-    
-    Метод shapesToString возвращает строку, содержащую список фигур в приложении.
-    @returns - строка со списком фигур.
-    */
-    private shapesToString(): string {
-        return this.shapes.value.map((shape: Figure) => `${ shape.getArea }: ${ JSON.stringify(shape) }`).join(', ');
-    }
-    /**
-    
-    Метод downloadShapes сохраняет список фигур в файл.
-    */
-    downloadShapes() {
-        const content = this.shapesToString();
-        const filename = 'shapes.txt';
-        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-        saveAs(blob, filename);
-    }
-    /**
-    
-    Метод saveAs сохраняет переданный файл под указанным именем.
-    @param blob - содержимое файла.
-    @param filename - имя файла.
-    */
-    saveAs(blob: Blob, filename: string) {
-        saveAs(blob, filename);
+
+    printHistory() {
+        console.log('История команд:');
+        this.history.forEach((command) => console.log(command));
     }
 }
