@@ -1,4 +1,5 @@
 export interface Figure{
+
     /**
      * Имя фигуры
      */

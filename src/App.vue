@@ -35,11 +35,12 @@ const commands = [
     return 'Скачивание файйла с фигурами и их параметрами: download'
   }),
   new CommandModel('history', (parameters: string) => {
-    console.log('История фигур и команд')
+    console.log('История команд');
   }, () => {
-    return 'История команд и фигур:history'
+    return 'Показать историю введенных команд: history'
   }),
 ];
+
 </script>
 
 <style >
