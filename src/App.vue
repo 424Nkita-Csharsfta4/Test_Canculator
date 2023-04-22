@@ -19,16 +19,6 @@ const commands = [
   }, () => {
     return 'Добавление фигур: add'
   }),
-  new CommandModel('start', (parameters: string) => {
-    console.log('Начало команды')
-  }, () => {
-    return 'Запуск консольного приложения: start'
-  }),
-  new CommandModel('exit', (parameters: string) => {
-    console.log('Выход с приложения:exit')
-  }, () => {
-    return 'Выход с консольного приложения:exit'
-  }),
   new CommandModel('download', (parameters: string) => {
     console.log('Скачивание файла');
   }, () => {
