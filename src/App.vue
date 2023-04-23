@@ -6,6 +6,11 @@
 import UIConsole from './components/ui-console/UI-console.vue';
 import { CommandModel } from "./components/ui-console/models/CommandModel";
 
+/**
+ * Создаем массив объектов  CommandModel,
+ *  каждый из которых содержит команду
+ *  функцию обработки команды и функцию возврата справки
+ */
 const commands = [
   new CommandModel('help', (parameters: string) => {
     console.log('Все комманды')

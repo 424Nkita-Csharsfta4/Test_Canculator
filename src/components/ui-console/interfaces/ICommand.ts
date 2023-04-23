@@ -7,7 +7,8 @@ export interface ICommand {
       * Функция которая вызвана при выполнении команды
       * @param parameters параметры команды
       */
-    execute: (parameters: string) => void;
+     execute: (args: string[]) => void;
+
     /**
      * Функция вызывается при запросе помощи в команде
      */
