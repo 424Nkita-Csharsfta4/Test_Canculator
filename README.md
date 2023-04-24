@@ -1,8 +1,5 @@
 # cnculate_vue
 
-![image](https://user-images.githubusercontent.com/103760832/233841865-e7bc81d3-a22c-42d6-afe3-9638815ea2ab.png)
-
-
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup

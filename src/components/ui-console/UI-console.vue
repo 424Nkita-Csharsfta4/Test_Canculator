@@ -14,7 +14,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { ref, defineProps } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { CommandModel } from "./models/CommandModel";
 import { Circle } from "@/canculate/circle/circle";
 import { Rectangle } from "@/canculate/rectangle/rectangle";
@@ -39,17 +39,14 @@ const commandOutputs = ref<string[]>([]);
  *  История введенных команд
  */
 const commandHistory = ref<string[]>([]);
-/**
- * Событие, срабатываемое после добавления фигуры
- */
-const figureAdded = new CustomEvent("figureAdded");
+
 
 
 
 /**
  *  Функция для поиска команды по имени и вызова ее execute()
  */
-function executeCommand(name: string, args: string[]) {
+const executeCommand = (name: string, args: string[]) => {
     const command = commands.find(c => c.name === name);
     if (command) {
         command.execute(args);
@@ -60,7 +57,7 @@ function executeCommand(name: string, args: string[]) {
 /**
  * Обработчик события @keydown.enter
  */
-function handleKeyDown(this: any, event: KeyboardEvent) {
+const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Enter") {
         const commandString = commandValue.value.trim();
         if (commandString) {
@@ -85,18 +82,14 @@ function handleKeyDown(this: any, event: KeyboardEvent) {
         }
     }
 }
+
 console.log(handleKeyDown)
-/**
- * Задаем типы пропсов, передаваемых в компонент
- */
-const props = defineProps<{
-    commands: CommandModel[];
-}>();
+
 
 /**
  * Описываем объекты для каждой доступной команды с их свойствами
  */
-console.log(props.commands);
+
 const commands: ICommand[] = [
     {
         /**
@@ -109,7 +102,7 @@ const commands: ICommand[] = [
         execute: () => {
             const help =
                 "Доступные команды:\n" +
-                props.commands.map((c) => c.help()).join("\n");
+                commands.map((c) => c.help()).join("\n");
             commandOutputs.value.push(help);
         },
         help: () => "help - показать список команд",
@@ -127,7 +120,7 @@ const commands: ICommand[] = [
         },
         help: () => "clear - очистить вывод",
     },
-   
+
 
     {
         /**
@@ -143,10 +136,10 @@ const commands: ICommand[] = [
              * содержащий историю команд, и для каждой команды добавляет ее номер и точку в начало строки.
              */
             const history = commandHistory.value
-            /**
-             * Объединяем все строки с помощью метода join(),
-             *  используя символ перевода строки "\n" в качестве разделителя
-             */
+                /**
+                 * Объединяем все строки с помощью метода join(),
+                 *  используя символ перевода строки "\n" в качестве разделителя
+                 */
                 .map((cmd, i) => `${i + 1}.${cmd}`)
                 .join("\n");
             commandOutputs.value.push(history);
@@ -212,7 +205,7 @@ const commands: ICommand[] = [
              */
             const figureName = args.shift();
             let figure: Circle | Rectangle | Square | Triangle;
-            
+
             /**
              * Определяем тип фигуры на основе ее имени и соответствующим образом проверьте аргументы
              */
@@ -244,9 +237,9 @@ const commands: ICommand[] = [
                     commandOutputs.value.push(`Радиус круга: ${circle.getArea()}`);
                     commandOutputs.value.push(`Длина окружности: ${circle.getPerimeter()}`);
                     break;
-                    /**
-                     *  Обработка команды Прямоугольник
-                     */
+                /**
+                 *  Обработка команды Прямоугольник
+                 */
                 case "Прямоугольник":
                     /**
                      * Проверяем, что количество аргументов равно 2
@@ -311,9 +304,9 @@ const commands: ICommand[] = [
                         `Площадь квадрата: ${square.getArea()}`
                     );
                     break;
-                   /**
-                    *  Обработка команды Треугольник
-                    */
+                /**
+                 *  Обработка команды Треугольник
+                 */
                 case "Треугольник":
                     /**
                      * Проверяем, что количество аргументов равно 3
@@ -337,7 +330,7 @@ const commands: ICommand[] = [
                      * Задаем созданный треугольник как текущую фигуру
                      */
                     figure = triangle;
-                    
+
                     /**
                      * Выводим периметр и площадь треугольника в командный вывод
                      */
@@ -364,27 +357,26 @@ const commands: ICommand[] = [
                 commandOutputs.value.push(`Неверные параметры для фигуры: ${figureName}`);
                 return;
             }
-          /**
-           * Если количество команд в истории достигло максимального значения,
-           * старые команды будут удаляться.
-           * Затем команда добавления фигуры будет добавлена в конец истории.
-           * В конце будет отправлено сообщение о добавлении фигуры
-           */
+            /**
+             * Если количество команд в истории достигло максимального значения,
+             * старые команды будут удаляться.
+             * Затем команда добавления фигуры будет добавлена в конец истории.
+             * В конце будет отправлено сообщение о добавлении фигуры
+             */
             if (commandHistory.value.length >= MAX_HISTORY_LENGTH) {
                 commandHistory.value.shift();
             }
 
             commandHistory.value.push(`add ${figureName} ${args.join(" ")}`);
-            document.dispatchEvent(figureAdded);
             commandOutputs.value.push(`Фигура ${figureName} была добавлена`);
         },
         /**
          * Возвращает информацию о том, как использовать команду add для добавления фигуры в список. 
          */
         help: () =>
-            "add <имя фигуры> <параметр1> <параметр2> ... - добавить фигуру в список. Доступные фигуры: Круг, Прямоугольник, Квадрат, Треугольник",     
+            "add <имя фигуры> <параметр1> <параметр2> ... - добавить фигуру в список. Доступные фигуры: Круг, Прямоугольник, Квадрат, Треугольник",
     },
-    
+
 ];
 console.log(commands);
 
@@ -392,16 +384,10 @@ console.log(commands);
  * 
  * @param parseFigure Функция для парсинга команды на добавление фигуры в список.
  */
-function parseFigure(command: string): any {
-    /**
-     * @param parts Разбивает команду на части, определяет имя фигуры и её параметры.
-     */
+const parseFigure = (command: string): any => {
     console.log(parseFigure);
     const parts = command.split(" ");
     console.log(parts);
-    /**
-     * Создаёт объект фигуры в зависимости от имени и параметров.
-     */
     const figureName = parts[1];
     let figure: any;
     console.log(figureName);
@@ -426,19 +412,16 @@ function parseFigure(command: string): any {
             );
             break;
 
-            /**
-             * Возвращает объект фигуры или null, если имя фигуры не было распознано
-             */
         default:
             return null;
     }
     return figure;
-
 }
+
 /**
  * сохранение истории команд в localStorage
  */
-function saveCommandHistory() {
+ const saveCommandHistory = () => {
     localStorage.setItem("commandHistory", JSON.stringify(commandHistory.value));
 }
 
@@ -446,7 +429,7 @@ console.log(saveCommandHistory);
 /**
  * загрузка истории команд из localStorage
  */
-function loadCommandHistory() {
+const loadCommandHistory = () => {
     const history = localStorage.getItem("commandHistory");
     if (history) {
         commandHistory.value = JSON.parse(history);
@@ -454,16 +437,18 @@ function loadCommandHistory() {
 }
 
 /**
- * обработчик события beforeunload для сохранения истории команд перед выходом со страницы
+ * загрузка истории команд при загрузке страницы
  */
-window.addEventListener("beforeunload", () => {
-    saveCommandHistory();
+ onMounted(() => {
+  loadCommandHistory();
 });
 
 /**
- * загрузка истории команд при загрузке страницы
+ * сохранение истории команд при удалении компонента
  */
-loadCommandHistory();
+ onUnmounted(() => {
+  saveCommandHistory();
+});
 
 console.log(loadCommandHistory);
 </script>
@@ -508,7 +493,7 @@ console.log(loadCommandHistory);
 }
 
 .terminal.prompt {
-    color: #98c379;
+    color: #f9faf9;
     margin-right: 5px;
 }
 
@@ -552,7 +537,7 @@ console.log(loadCommandHistory);
 }
 
 .prompt {
-    color: #fff200;
+    color: #ff0000dc;
     margin-right: 5px;
 }
 

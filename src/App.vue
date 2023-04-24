@@ -1,8 +1,11 @@
-<template>
-  <UIConsole :commands="commands" />
+<template >
+  <div >
+    <UIConsole :commands="commands" />
+  </div>
 </template>
 
 <script lang="ts" setup>
+
 import UIConsole from './components/ui-console/UI-console.vue';
 import { CommandModel } from "./components/ui-console/models/CommandModel";
 
@@ -39,6 +42,7 @@ const commands = [
 </script>
 
 <style >
+
 h1 {
   font-size: 2rem;
   margin-bottom: 2rem;
